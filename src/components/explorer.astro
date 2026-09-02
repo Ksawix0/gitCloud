@@ -1,0 +1,62 @@
+---
+import ExplorerComponent from "./explorerComponent.tsx"
+---
+<ExplorerComponent  client:load/>
+<style is:global>
+    #explorer{
+        background: #202024;
+        height: 85svh;
+        width: 100%;
+        max-width: 98rem;
+        display: flex;
+        flex-direction: column;
+        border-radius: 20px;
+        justify-content: center;
+    }
+    .explorerOptions{
+        display: flex;
+        padding: .8rem;
+        background: #202024;
+        justify-content: flex-start;
+        border-radius: 15px 15px 0 0;
+    }
+    .explorerOptions>.tools{
+        display: flex;
+        background: #29292e;
+    }
+    #explorer>.elements{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 100%;
+        background: #29292e;
+        border-radius: 0 0 15px 15px;
+    }
+    #explorer> .elementsInfo{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        background: #29292e;
+        padding-top: .3rem;
+        padding-bottom: .3rem;
+    }
+    .elementsInfo > .elementName{
+        width: 100%;
+        max-width: 50rem;
+        margin: 0 1rem;
+    }
+    .elements>.element{
+        display: flex;
+        flex-direction: row;
+        margin: .25rem;
+        padding: .5rem;
+        background: #19191f;
+        border-radius: 5px;
+    }
+
+    .element > .elementName{
+        width: 100%;
+        max-width: 50rem;
+        margin: 0 1rem;
+    }
+</style>
