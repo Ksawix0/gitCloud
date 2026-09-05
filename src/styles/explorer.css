@@ -1,0 +1,178 @@
+#explorer{
+    background: var(--background-3);
+    height: 85svh;
+    width: 100%;
+    max-width: 175svh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+/*option bar*/
+#explorer > .explorerOptions{
+    display: flex;
+    flex-direction: row;
+    padding: .8rem;
+    background: #202024;
+    justify-content: flex-start;
+    border-radius: 15px 15px 0 0;
+}
+
+.explorerOptions>.tools{
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+.tools>.tool{
+    display: flex;
+    border-radius: 15px;
+    padding: .6em .8em;
+    margin: 0 .2svw 0 .2rem;
+    background: var(--background-3);
+}
+
+.explorerOptions > .uploadFileButton{
+    display: flex;
+    color: white;
+    background: var(--accent-color);
+    border: none;
+    border-radius: 15px;
+    padding: .4rem .8rem;
+    font-family: var(--default-font),monospace;
+    font-size: 1rem;
+    vertical-align: middle;
+    align-items: center;
+}
+.explorerOptions > .uploadFileButton:hover{
+    background: color-mix(in oklab, hsl(0, 0%, 100%) 10%, var(--accent-color) 100%);
+}
+.explorerOptions > .uploadFileButton:active{
+    transform: translateY(0.04rem);
+}
+
+#explorer > .pathBar{
+    display: flex;
+    flex-direction: row;
+}
+
+.pathBar > .path{
+    display: flex;
+    flex-direction: row;
+    margin: 0 .4rem 0 .4rem;
+    overflow-x: auto;
+}
+@media (min-width: 600px) {
+    *::-webkit-scrollbar {
+        height: .5rem;
+        width: .5rem;
+        background: transparent;
+    }
+    *::-webkit-scrollbar-thumb {
+        background: #49494d;
+        border-radius: 24px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+        background: #545459;
+    }
+
+    body::-webkit-scrollbar {
+        width: .6rem;
+    }
+}
+
+.path > .pathBlock{
+    background: #1a1a1f;
+    color: #FFFFFF;
+    padding: .2rem .5rem;
+    margin: .4rem .2rem;
+    border-radius: 10px;
+    border: none;
+    font-family: var(--default-font),monospace;
+}
+.path > .pathBlock:hover{
+    background: #1e1e24;
+}
+.path > .pathBlock:active{
+    transform: translateY(0.04em);
+}
+
+.pathBar > .refreshButton{
+    background: #1b1b1f;
+    border: none;
+    border-radius: 10px;
+    padding: .4rem;
+    margin: .4rem .5rem;
+
+}
+.pathBar > .refreshButton:hover{
+
+}
+.pathBar > .refreshButton:active{
+    transform: translateY(0.04em);
+}
+/*end*/
+
+/*files*/
+#explorer>.elements{
+    display: table;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+    flex-grow: 1;
+    border-radius: 0 0 15px 15px;
+}
+
+:is(tbody , thead) > .element{
+    display: flex;
+    flex-direction: row;
+    margin: .25rem;
+    padding: .4rem;
+    background: var(--element-color);
+    border-radius: 5px;
+    align-items: center;
+    height: 2.5svh;
+}
+
+thead > .element.elementsInfo{
+    background: none;
+    margin-top: .3rem;
+    margin-bottom: .2rem;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+tbody > .element:hover{
+    /*transform: translateY(0.04em);*/
+    /*filter: brightness(110%) saturate(.8);*/
+    background: color-mix(in oklab, hsl(0, 0%, 100%) 1%, var(--element-color) 100%);
+
+}
+.element > .elementName{
+    max-width: 80svh;
+    flex-grow: 1;
+    margin: 0 0 0 1rem;
+}
+
+.element > .elementIcon{
+    display: flex;
+    font-size: 1.45rem;
+    width: 1.4rem;
+}
+
+.elementIcon > img[alt="file"]{
+    vertical-align: middle;
+    padding: 0.179rem;
+}
+/*end*/
+
+/*icons*/
+.material-symbols-outlined {
+    color: white;
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+}
+/*end*/
