@@ -168,7 +168,7 @@ export default function ExplorerComponent() {
                                         return (
                                             <tr class={"element"} onClick={() => downloadFile(index)}>
                                                 <td class={"elementIcon"}>
-                                                    <img src={"./file.svg"} alt={"file"} role={"img"} height={"21"}/>
+                                                    <img src={"/gitCloud/file.svg"} alt={"file"} role={"img"} height={"21"}/>
                                                 </td>
                                                 <td class={"elementName"} >{item.name}</td>
                                                 <td class={"elementSize"}>{item.byteSize}</td>

@@ -5,11 +5,13 @@ import preact from '@astrojs/preact';
 
 // https://astro.build/config
 export default defineConfig({
-  fonts: [{
+    fonts: [{
       provider: fontProviders.google(),
       name: 'Rubik',
-      cssVariable: "--font-rubik",
-  }],
+      cssVariable: "--font-rubik"
+    }],
+    integrations: [preact()],
 
-  integrations: [preact()]
+    site: 'https://ksawix0.github.io/',
+    base: '/gitCloud',
 });
