@@ -1,0 +1,9 @@
+---
+import LoginComponent from "./loginComponent"
+import "../styles/login.css"
+---
+<LoginComponent client:only="preact">
+    <button slot="fallback" id="loginButton">
+        Login
+    </button>
+</LoginComponent>

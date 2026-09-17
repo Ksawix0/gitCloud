@@ -18,6 +18,7 @@ export default function ExplorerComponent() {
     const [elements, setElements] = useState<gitCloudGetResponse[]>([])
 
     const [info, setInfo] = useState<ComponentChildren|null>(null);
+    const [login, setLogin] = useState<boolean|null>(false);
 
     const refreshData = async () => {
         try {
@@ -105,6 +106,52 @@ export default function ExplorerComponent() {
         link.click();
         document.body.removeChild(link);
     }
+
+    useLayoutEffect( () => {
+
+        const loginSuccess = () => {
+            setLogin(true)
+            sessionStorage.removeItem("loginSuccess")
+        }
+
+        window.addEventListener("loginSuccess", loginSuccess);
+
+        if(sessionStorage.getItem("loginSuccess") !== null){
+            loginSuccess()
+        }
+
+        (async () => {
+            //? cached elements
+            if(await indexedDB.databases().then(dbsInfo => dbsInfo.some(value => value.name === "cache"))){
+                refreshDataFromCache();
+            }else{
+                const dbCacheRequest = indexedDB.open("cache", 1)
+                dbCacheRequest.onupgradeneeded = () =>{
+                    const db = dbCacheRequest.result;
+                    db.createObjectStore("entityList", {keyPath: "path", autoIncrement: false});
+                }
+            }
+        })()
+
+        const box = document.querySelector('.path');
+        if(box) {
+            box.scrollLeft = box.scrollWidth;
+        }
+
+    }, []);
+
+    useEffect( () => {(async () => {
+        await refreshData()
+        window.addEventListener("refreshExplorer", refreshData);
+        window.addEventListener("popstate", async () => {
+            path.current = new URLSearchParams(window.location.search).get("q") ?? "";
+            refreshDataFromCache();
+        })
+        if (localStorage.getItem("apiUrl") === null){
+            localStorage.setItem("apiUrl", defaultServerAddress)
+        }
+    })()}, [])
+
     const explorerContentRender = () => {
         return (
             <>
@@ -115,7 +162,7 @@ export default function ExplorerComponent() {
                     </div>
                     <button class={"uploadFileButton"}>
                         <div class={"material-symbols-outlined"} style={{fontSize: "1.5em"}}>upload_file</div>
-                        <span>Add File</span>
+                        <span>Upload File</span>
                     </button>
                 </div>
                 <div class={"pathBar"}>
@@ -184,42 +231,6 @@ export default function ExplorerComponent() {
             </>
         );
     }
-
-    useLayoutEffect( () => {(async () => {
-        //? cached elements
-        if(await indexedDB.databases().then(dbsInfo => dbsInfo.some(value => value.name === "cache"))){
-            refreshDataFromCache();
-        }else{
-            const dbCacheRequest = indexedDB.open("cache", 1)
-            dbCacheRequest.onupgradeneeded = () =>{
-                const db = dbCacheRequest.result;
-                db.createObjectStore("entityList", {keyPath: "path", autoIncrement: false});
-            }
-        }
-
-        //? path
-        const savedPath: string|null = sessionStorage.getItem("path");
-        if(savedPath){
-            sessionStorage.setItem("path", savedPath)
-        }else {
-            sessionStorage.setItem("path", "")
-        }
-
-        const box = document.querySelector('.path');
-        if(box) {
-            box.scrollLeft = box.scrollWidth;
-        }
-    })()}, []);
-
-    useEffect( () => {(async () => {
-        await refreshData()
-        window.addEventListener("refreshExplorer", refreshData);
-        window.addEventListener("popstate", async () => {
-            path.current = new URLSearchParams(window.location.search).get("q") ?? "";
-            refreshDataFromCache();
-        })
-    })()}, [])
-
 
     return (
         <div id={"explorer"}>
