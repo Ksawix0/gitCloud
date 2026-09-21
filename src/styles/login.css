@@ -29,3 +29,51 @@
     backdrop-filter: blur(4px);
     box-sizing: border-box;
 }
+
+.loggedUsername {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: .5rem;
+    border-radius: 10px;
+    background: var(--accent-color);
+    padding: .5rem;
+    cursor: pointer;
+}
+
+.userMenu{
+    position: fixed;
+    top: 5rem;
+    right: 25svw;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background: var(--background-4);
+    border-radius: 10px;
+    padding: .5rem 0 .5rem 0;
+}
+
+.userMenu > *{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: .2rem 1rem .2rem 1rem;
+}
+
+.userMenu > * > .material-symbols-outlined{
+    display: flex;
+    width: 2rem;
+    justify-content: center;
+}
+
+.userMenu > *:hover{
+    background: color-mix(in oklab, hsl(0, 0%, 100%) 7%, var(--background-4) 100%);
+}
+
+.userMenu > .logout{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}

@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from "preact/hooks";
+import {gcLog} from "./logComponent.tsx";
 
 type jwtClaims = {
     sub: string,
@@ -15,16 +16,16 @@ export default function LoginComponent() {
 
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const loginPageRef = useRef<HTMLDivElement>(null);
 
     const [username, setUsername] = useState<string | null>(null)
     const [loginOpened, setLoginOpened] = useState<boolean>(false)
+    const [userMenuOpened, setUserMenuOpened] = useState<boolean>(false)
 
-    const handleKeyUp = (e:KeyboardEvent) =>{
+    const handleKeyUp = useRef((e:KeyboardEvent) =>{
         if(e.key === "Escape"){
             setLoginOpened(false)
         }
-    }
+    })
 
     const openLogin = () => {
         setLoginOpened(true);
@@ -46,7 +47,8 @@ export default function LoginComponent() {
         })
 
         if (response.status !== 200){
-            console.log(response.status)
+            gcLog.error("Login error: " + response.status);
+            console.log(response)
         }
 
         const respJson= await response.json() as {accessToken: string}
@@ -69,11 +71,13 @@ export default function LoginComponent() {
 
         console.log(response)
         if (response.status !== 200){
-            return response.status
+            gcLog.error("Login error: " + response.status);
+            console.log(response)
         }
 
         const respJson= (await response.json()) as {accessToken: string}
 
+        window.dispatchEvent(new CustomEvent("loginSuccess"))
         localStorage.setItem("accessToken", respJson.accessToken)
         return 200
     }
@@ -99,19 +103,35 @@ export default function LoginComponent() {
 
     useEffect(() => {
         if(loginOpened){
-            loginPageRef.current?.addEventListener("keyup", handleKeyUp)
+            window.addEventListener("keyup", handleKeyUp.current)
         }else{
-            loginPageRef.current?.removeEventListener("keyup", handleKeyUp)
+            window.removeEventListener("keyup", handleKeyUp.current)
         }
     }, [loginOpened]);
 
     const renderComponent= () => {
         if(username !== null) {
-            return <div>{username}</div>;
+            return (
+                <>
+                    <div class={"loggedUsername"} onClick={() => setUserMenuOpened(!userMenuOpened)}>{username}</div>
+                    {userMenuOpened && (
+                        <div class={"userMenu"}>
+                            <div class={"logout"}>
+                                <div class={"material-symbols-outlined"}>logout</div>
+                                <div>Logout</div>
+                            </div>
+                            <div>
+                                <div class={"material-symbols-outlined"} style={{width:"auto", marginRight: ".5rem"}}>settings</div>
+                                <div>Settings</div>
+                            </div>
+                        </div>
+                    )}
+                </>
+            );
         }
         if(loginOpened) {
             return (
-                <div class={"loginPage"} ref={loginPageRef}>
+                <div class={"loginPage"}>
                     <input type={"text"} required id={"username"} ref={usernameRef}/>
                     <input type={"password"} required id={"password"} ref={passwordRef}/>
                     <button onClick={login}>Login</button>

@@ -2,11 +2,17 @@
     background: var(--background-3);
     height: 85svh;
     width: 100%;
-    max-width: 175svh;
+    max-width: 80svw;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
     justify-content: center;
+}
+
+@media only screen and (width < 1200px) {
+    #explorer{
+        max-width: unset;
+    }
 }
 
 /*option bar*/
@@ -142,12 +148,29 @@ thead > .element.elementsInfo{
     padding-bottom: 0;
 }
 
+tbody > .element.selected {
+    border-color: var(--element-color);
+    border-style: solid;
+    border-width: 2px;
+    margin-top: calc(.3rem - 2px);
+    margin-bottom: calc(.2rem - 2px);
+    background: var(--element-select-color);
+}
+
 tbody > .element:hover{
     /*transform: translateY(0.04em);*/
     /*filter: brightness(110%) saturate(.8);*/
     background: color-mix(in oklab, hsl(0, 0%, 100%) 1%, var(--element-color) 100%);
 
 }
+
+tbody > .element.selected:hover{
+    /*transform: translateY(0.04em);*/
+    /*filter: brightness(110%) saturate(.8);*/
+    background: color-mix(in oklab, hsl(0, 0%, 100%) 1%, var(--element-select-color) 100%);
+
+}
+
 .element > .elementName{
     max-width: 80svh;
     flex-grow: 1;
